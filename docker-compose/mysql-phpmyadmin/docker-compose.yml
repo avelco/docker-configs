@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Database
+  db:
+    image: mysql:5.7
+    container_name: db
+    volumes:
+      - data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - default
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - db
+    container_name: pma
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: ${PMA_HOST}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - default
+#Docker Networks
+networks:
+  default:
+    external: true
+    name: apps
+#Volumes
+volumes:
+  data:
