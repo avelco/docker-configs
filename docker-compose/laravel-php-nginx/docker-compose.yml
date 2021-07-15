@@ -3,10 +3,7 @@ services:
 
   #PHP Service
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: digitalocean.com/php
+    image: chapacua/php:0.2
     container_name: app
     restart: unless-stopped
     tty: true
@@ -21,7 +18,7 @@ services:
       - default
   #Nginx Service
   webserver:
-    image: nginx:alpine
+    image: chapacua/nginx:0.2
     container_name: webserver
     restart: unless-stopped
     tty: true

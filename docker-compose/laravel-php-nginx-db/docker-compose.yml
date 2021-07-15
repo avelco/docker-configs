@@ -1,12 +1,9 @@
-version: '3'
+version: '3.8'
 services:
 
   #PHP Service
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: digitalocean.com/php
+  php:
+    image: chapacua/php:0.2
     container_name: app
     restart: unless-stopped
     tty: true
@@ -21,16 +18,15 @@ services:
       - laravelnet
   #Nginx Service
   webserver:
-    image: nginx:alpine
+    image: chapacua/nginx:0.2
     container_name: webserver
     restart: unless-stopped
     tty: true
     ports:
       - "9001:80"
-      - "443:443"
     volumes:
       - ./:/var/www
-      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/nginx:/etc/nginx/conf.d
     networks:
       - laravelnet
   # Database
@@ -44,6 +40,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     networks:
       - laravelnet
   # phpmyadmin
