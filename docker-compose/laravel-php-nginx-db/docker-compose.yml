@@ -3,22 +3,22 @@ services:
 
   #PHP Service
   php:
-    image: chapacua/php:0.2
-    container_name: app
+    image: chapacua/php:0.3.0
+    container_name: php
     restart: unless-stopped
     tty: true
     environment:
-      SERVICE_NAME: app
+      SERVICE_NAME: php
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
       - ./:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
-      - laravelnet
+      - net
   #Nginx Service
   webserver:
-    image: chapacua/nginx:0.2
+    image: chapacua/nginx:0.3.1
     container_name: webserver
     restart: unless-stopped
     tty: true
@@ -28,7 +28,7 @@ services:
       - ./:/var/www
       - ./docker/nginx:/etc/nginx/conf.d
     networks:
-      - laravelnet
+      - net
   # Database
   db:
     image: mysql:5.7
@@ -42,7 +42,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     networks:
-      - laravelnet
+      - net
   # phpmyadmin
   phpmyadmin:
     depends_on:
@@ -56,10 +56,10 @@ services:
       PMA_HOST: ${PMA_HOST}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
-      - laravelnet      
+      - net      
 #Docker Networks
 networks:
-  laravelnet:
+  net:
     driver: bridge
 #Volumes
 volumes:

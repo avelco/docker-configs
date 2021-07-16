@@ -3,4 +3,5 @@ FROM nginx:stable
 #Make Directory - Workspace
 RUN mkdir -p /var/www/
 
-RUN chown -R www-data:www-data /var/www/
+#give permissions to webuser
+RUN chown -R 33:33 /var/www/

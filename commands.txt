@@ -1,0 +1,3 @@
+#Create a laravel project in current folder path
+
+docker run --rm -it --volume $(pwd):/app composer create-project laravel/laravel <project name>
